@@ -1,6 +1,6 @@
-import express from 'express';
-import { AppDataSource } from './data-source';
-import itemRoutes from './routes/itemRoutes';
+import express from "express";
+import { AppDataSource } from "./data-source";
+import itemRoutes from "./routes/itemRoutes";
 
 const app = express();
 
@@ -9,10 +9,10 @@ app.use(express.json());
 
 AppDataSource.initialize()
   .then(() => {
-    console.log('Data Source has been initialized!');
+    console.log("Data Source has been initialized!");
 
     // Mount the router at /items
-    app.use('/items', itemRoutes);
+    app.use("/items", itemRoutes);
 
     const port = process.env.PORT || 3000;
     app.listen(port, () => {
@@ -20,5 +20,5 @@ AppDataSource.initialize()
     });
   })
   .catch((error) => {
-    console.error('Error during Data Source initialization:', error);
+    console.error("Error during Data Source initialization:", error);
   });
