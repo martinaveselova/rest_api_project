@@ -5,7 +5,7 @@ import { Item } from "../entities/item";
 const itemRoutes = Router();
 
 // Get list of all items
-itemRoutes.get("/", async (req, res) => {
+itemRoutes.get("/items", async (req, res) => {
   try {
     const itemRepo = AppDataSource.getRepository(Item);
     const items = await itemRepo.find();
@@ -16,7 +16,7 @@ itemRoutes.get("/", async (req, res) => {
 });
 
 // Get an ID of item from DB
-itemRoutes.get("/:id", async (req, res) => {
+itemRoutes.get("/items/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const itemRepo = AppDataSource.getRepository(Item);
@@ -32,6 +32,18 @@ itemRoutes.get("/:id", async (req, res) => {
   } catch (error) {
     return res.status(500).json({ message: "Error fetching item", error });
   }
+});
+
+// Endpoint POST - create a new item into db
+itemRoutes.post("/items", (req, res) => {
+  console.log(req.body);
+  res.send({
+    type: "POST",
+    name: req.body.name,
+    quantity: req.body.quantity,
+    price: req.body.price,
+    lot: req.body.lot,
+  });
 });
 
 export default itemRoutes;
