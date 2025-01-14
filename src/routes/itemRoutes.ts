@@ -21,8 +21,7 @@ itemRoutes.get("/items/:id", async (req, res) => {
     const { id } = req.params;
     const itemRepo = AppDataSource.getRepository(Item);
 
-    // Convert the id from string to number
-    const item = await itemRepo.findOneBy({ id: Number(id) });
+    const item = await itemRepo.findOneBy({ id });
 
     if (!item) {
       return res.status(404).json({ message: "Item not found" });
@@ -30,20 +29,35 @@ itemRoutes.get("/items/:id", async (req, res) => {
 
     return res.json(item);
   } catch (error) {
+    console.error("Error fetching item:", error);
     return res.status(500).json({ message: "Error fetching item", error });
   }
 });
 
 // Endpoint POST - create a new item into db
-itemRoutes.post("/items", (req, res) => {
-  console.log(req.body);
-  res.send({
-    type: "POST",
-    name: req.body.name,
-    quantity: req.body.quantity,
-    price: req.body.price,
-    lot: req.body.lot,
-  });
+itemRoutes.post("/items", async (req, res) => {
+  try {
+    const { name, quantity, price, lot } = req.body;
+    
+    // TypeORM to get the repository
+    const itemRepo = AppDataSource.getRepository(Item);
+
+    // Create a new Item instance with the provided data
+    const newItem = itemRepo.create({
+      name,
+      quantity,
+      price,
+      lot,
+    });
+
+    // Save the new item to the database
+    const savedItem = await itemRepo.save(newItem);
+
+    return res.status(201).json(savedItem);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Error creating item" });
+  }
 });
 
 export default itemRoutes;
