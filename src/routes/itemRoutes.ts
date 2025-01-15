@@ -80,5 +80,4 @@ itemRoutes.delete("/items/:id", async (req, res) => {
   }
 });
 
-
 export default itemRoutes;

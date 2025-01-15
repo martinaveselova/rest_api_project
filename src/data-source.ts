@@ -3,7 +3,7 @@ import "reflect-metadata";
 import dotenv from "dotenv";
 import { Item } from "./entities/item";
 
-dotenv.config()
+dotenv.config();
 
 export const AppDataSource = new DataSource({
   type: "postgres",
