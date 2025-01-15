@@ -3,7 +3,7 @@ import "reflect-metadata";
 import dotenv from "dotenv";
 import { Item } from "./entities/item";
 
-dotenv.config(); // Load env variables from .env
+dotenv.config()
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -17,4 +17,4 @@ export const AppDataSource = new DataSource({
   logging: false,
 });
 
-console.log("Using DB:", AppDataSource.options.database);
+console.log("Database connected!");

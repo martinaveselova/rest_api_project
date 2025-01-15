@@ -34,30 +34,51 @@ itemRoutes.get("/items/:id", async (req, res) => {
   }
 });
 
-// Endpoint POST - create a new item into db
+// POST - create a new item into db
 itemRoutes.post("/items", async (req, res) => {
+  const { name, quantity, price, lot } = req.body;
+  const itemRepo = AppDataSource.getRepository(Item);
+  const newItem = itemRepo.create({
+    name,
+    quantity,
+    price,
+    lot,
+  });
+  const savedItem = await itemRepo.save(newItem);
+
   try {
-    const { name, quantity, price, lot } = req.body;
-    
-    // TypeORM to get the repository
-    const itemRepo = AppDataSource.getRepository(Item);
-
-    // Create a new Item instance with the provided data
-    const newItem = itemRepo.create({
-      name,
-      quantity,
-      price,
-      lot,
-    });
-
-    // Save the new item to the database
-    const savedItem = await itemRepo.save(newItem);
-
-    return res.status(201).json(savedItem);
+    if (savedItem) {
+      return res.status(201).json(savedItem);
+    } else {
+      return res.status(500).json({ message: "Item could not be saved" });
+    }
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Error creating item" });
   }
 });
+
+// DELETE - delete item from db
+itemRoutes.delete("/items/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const itemRepo = AppDataSource.getRepository(Item);
+
+    // Find the item by ID
+    const item = await itemRepo.findOneBy({ id });
+
+    // Check if the item exists
+    if (!item) {
+      return res.status(404).json({ message: "Item not found" });
+    }
+    await itemRepo.remove(item);
+
+    return res.status(200).json({ message: "Item deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting item:", error);
+    return res.status(500).json({ message: "Error deleting item", error });
+  }
+});
+
 
 export default itemRoutes;
