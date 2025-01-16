@@ -3,22 +3,24 @@ import { AppDataSource } from "./data-source";
 import itemRoutes from "./routes/itemRoutes";
 
 const app = express();
-
-// If you need JSON body parsing
 app.use(express.json());
 
-AppDataSource.initialize()
-  .then(() => {
-    console.log("Data Source has been initialized!");
+const startServer = async () => {
+  try {
+    await AppDataSource.initialize();
+    console.log("Data source has been initialized!");
 
-    // Mount the router at /items
-    app.use("/items", itemRoutes);
+    // mount the router at items
+    app.use("/api", itemRoutes);
 
-    const port = process.env.PORT || 3000;
+    // start the server
+    const port = process.env.PORT || 5000;
     app.listen(port, () => {
       console.log(`Server running on port ${port}`);
     });
-  })
-  .catch((error) => {
+  } catch (error) {
     console.error("Error during Data Source initialization:", error);
-  });
+  }
+};
+
+startServer();

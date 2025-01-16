@@ -3,18 +3,18 @@ import "reflect-metadata";
 import dotenv from "dotenv";
 import { Item } from "./entities/item";
 
-dotenv.config(); // Load env variables from .env
+dotenv.config();
 
 export const AppDataSource = new DataSource({
   type: "postgres",
-  host: process.env.DB_HOST || "localhost",
+  host: process.env.DB_HOST,
   port: parseInt(process.env.DB_PORT || "5432"),
-  username: "postgres",
-  password: "Lokisek12!",
+  username: process.env.DB_NAME,
+  password: process.env.DB_PASS,
   database: "postgres",
   entities: [Item],
   synchronize: true,
   logging: false,
 });
 
-console.log("Using DB:", AppDataSource.options.database);
+console.log("Database connected!");
