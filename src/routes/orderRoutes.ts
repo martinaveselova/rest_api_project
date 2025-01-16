@@ -4,7 +4,6 @@ import { Order } from "../entities/orders";
 
 const orderRoutes = Router();
 
-orderRoutes.get("/orders", async (req, res) => {
-});
+orderRoutes.get("/orders", async (req, res) => {});
 
 export default orderRoutes;

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { Order } from "./orders";
 
 @Entity()
@@ -10,9 +10,9 @@ export class Item {
   name!: string;
 
   @Column({ type: "varchar", length: 13, nullable: false })
-ean!: string;
+  ean!: string;
 
-@Column({ type: "varchar", length: 8, nullable: false })
+  @Column({ type: "varchar", length: 8, nullable: false })
   sku!: string;
 
   @OneToMany(() => Order, (order) => order.item)

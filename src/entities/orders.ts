@@ -10,34 +10,32 @@ export class Order {
   order_number!: string;
 
   @Column()
-orderCreated!: string;
+  orderCreated!: string;
 
-@Column()
+  @Column()
   status!: string;
 
-@Column()
+  @Column()
   carrier!: string;
 
-@Column()
-carrier_service!: string;
+  @Column()
+  carrier_service!: string;
 
-@Column()
-firstName!: string;
+  @Column()
+  firstName!: string;
 
-@Column()
-lastName!: string;
+  @Column()
+  lastName!: string;
 
-@Column()
-deliveryAddress!: string;
+  @Column()
+  deliveryAddress!: string;
 
-@Column()
-deliveryPhone!: string;
+  @Column()
+  deliveryPhone!: string;
 
-@Column()
-deliveryEmail!: string;
+  @Column()
+  deliveryEmail!: string;
 
-@ManyToOne(() => Item, (item) => item.orders, { nullable: false })
-item!: Item;
-
-
+  @ManyToOne(() => Item, (item) => item.orders, { nullable: false })
+  item!: Item;
 }

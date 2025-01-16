@@ -16,7 +16,6 @@ itemRoutes.get("/items", async (req, res) => {
   }
 });
 
-
 // Get an ID of item from DB
 itemRoutes.get("/items/:id", async (req, res) => {
   try {
@@ -35,7 +34,6 @@ itemRoutes.get("/items/:id", async (req, res) => {
     return res.status(500).json({ message: "Error fetching item", error });
   }
 });
-
 
 // POST - create a new item into db
 itemRoutes.post("/items", async (req, res) => {
@@ -56,7 +54,6 @@ itemRoutes.post("/items", async (req, res) => {
     return res.status(500).json({ message: "Error creating item" });
   }
 });
-
 
 // PUT - update item in db
 itemRoutes.put("/items/:id", async (req, res) => {
@@ -82,7 +79,9 @@ itemRoutes.put("/items/:id", async (req, res) => {
     });
 
     if (existingItem && existingItem.id !== id) {
-      return res.status(409).json({ message: "EAN or SKU already exists in the database." });
+      return res
+        .status(409)
+        .json({ message: "EAN or SKU already exists in the database." });
     }
 
     item.name = value.name;
@@ -97,7 +96,6 @@ itemRoutes.put("/items/:id", async (req, res) => {
     return res.status(500).json({ message: "Error updating item", error });
   }
 });
-
 
 // DELETE - delete item from db
 itemRoutes.delete("/items/:id", async (req, res) => {
