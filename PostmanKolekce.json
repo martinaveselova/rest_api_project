@@ -1,0 +1,244 @@
+{
+	"info": {
+		"_postman_id": "8f3f7e86-13db-4aaa-8d5a-4acaf20cf291",
+		"name": "My project API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40729311"
+	},
+	"item": [
+		{
+			"name": "Items",
+			"item": [
+				{
+					"name": "Get Item",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Jehněčí kostička\",\r\n    \"quantity\": \"12\",\r\n    \"price\": \"100\",\r\n    \"lot\": \"220524\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/items/adc08196-1676-4e65-b947-de8235f65d20",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"items",
+								"adc08196-1676-4e65-b947-de8235f65d20"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get list of Items",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Jehněčí kostička\",\r\n    \"quantity\": \"12\",\r\n    \"price\": \"100\",\r\n    \"lot\": \"220524\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/items",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Item",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Vepřové ouško\",\r\n    \"ean\": \"8995563113657\",\r\n    \"sku\": \"89077552\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/items",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Item",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Kachní kostička\",\r\n    \"ean\": \"8775563223658\",\r\n    \"sku\": \"88057493\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/items/adc08196-1676-4e65-b947-de8235f65d20",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"items",
+								"adc08196-1676-4e65-b947-de8235f65d20"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Item",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Jehněčí kostička\",\r\n    \"quantity\": \"12\",\r\n    \"price\": \"100\",\r\n    \"lot\": \"220524\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/items/adc08196-1676-4e65-b947-de8235f65d20",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"items",
+								"adc08196-1676-4e65-b947-de8235f65d20"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Get Order",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/orders/0ee35bef-4226-4ca8-b76b-81301c2e660b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"orders",
+								"0ee35bef-4226-4ca8-b76b-81301c2e660b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get list of Orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"orderNumber\": \"TestOrder2\",\r\n    \"orderCreated\": \"2025-01-01\",\r\n    \"carrier\": \"GLS\",\r\n    \"carrierService\": \"GLS Home Delivery\",\r\n    \"firstName\": \"Test\",\r\n    \"lastName\": \"Testovací\",\r\n    \"deliveryAddress\": \"Do Čertous 2704/10, 19300 Praha\",\r\n    \"deliveryPhone\": \"+420 725 538 077\",\r\n    \"deliveryEmail\": \"test.testovaci@gmail.com\",\r\n    \"items\": [\r\n        \"8b081063-3346-4e97-bc92-1e15aeddc145\"\r\n    ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
