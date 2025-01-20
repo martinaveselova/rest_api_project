@@ -1,41 +1,40 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
-import { Item } from "./item";
+import { Unique, ManyToMany, JoinTable, Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import { Item } from './items'
 
 @Entity()
+@Unique(['orderNumber'])
 export class Order {
-  @PrimaryGeneratedColumn("uuid")
-  id!: string;
+  @PrimaryGeneratedColumn('uuid')
+  id!: string
 
   @Column()
-  order_number!: string;
+  orderNumber!: string
+
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  orderCreated!: Date
 
   @Column()
-  orderCreated!: string;
+  carrier!: string
 
   @Column()
-  status!: string;
+  carrierService!: string
 
   @Column()
-  carrier!: string;
+  firstName!: string
 
   @Column()
-  carrier_service!: string;
+  lastName!: string
 
   @Column()
-  firstName!: string;
+  deliveryAddress!: string
 
   @Column()
-  lastName!: string;
+  deliveryPhone!: string
 
   @Column()
-  deliveryAddress!: string;
+  deliveryEmail!: string
 
-  @Column()
-  deliveryPhone!: string;
-
-  @Column()
-  deliveryEmail!: string;
-
-  @ManyToOne(() => Item, (item) => item.orders, { nullable: false })
-  item!: Item;
+  @ManyToMany(() => Item, (item) => item.orders)
+  @JoinTable()
+  items!: Item[]
 }
