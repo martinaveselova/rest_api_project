@@ -2,6 +2,7 @@ import { DataSource } from "typeorm";
 import "reflect-metadata";
 import dotenv from "dotenv";
 import { Item } from "./entities/item";
+import { Order } from "./entities/orders";
 
 dotenv.config();
 
@@ -12,7 +13,7 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_NAME,
   password: process.env.DB_PASS,
   database: "postgres",
-  entities: [Item],
+  entities: [Item, Order],
   synchronize: true,
   logging: false,
 });
