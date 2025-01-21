@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { AppDataSource } from '../data-source'
 import { Order } from '../entities/orders'
-import { orderValidator } from '../validators/orderValidator'
+import { orderCreateValidator, orderUpdateValidator } from '../validators/orderValidator'
 import { Item } from '../entities/items'
 import { In } from 'typeorm'
 
@@ -38,7 +38,7 @@ orderRoutes.get('/orders/:id', async (req, res) => {
 
 orderRoutes.post('/orders', async (req, res) => {
   try {
-    const { error, value } = orderValidator.validate(req.body)
+    const { error, value } = orderCreateValidator.validate(req.body)
     if (error) {
       return res.status(400).json({ message: error.details[0].message })
     }
@@ -46,14 +46,14 @@ orderRoutes.post('/orders', async (req, res) => {
     const orderRepo = AppDataSource.getRepository(Order)
     const itemRepo = AppDataSource.getRepository(Item)
 
-    // Fetch all items by their IDs using the In operator
+    // fetch all items by their IDs using the In operator
     const items = await itemRepo.find({ where: { id: In(value.items) } })
 
     if (items.length !== value.items.length) {
       return res.status(400).json({ message: 'Some items were not found' })
     }
 
-    // Create order with validated data and items
+    // create order with validated data and items
     const newOrder = orderRepo.create({ ...value, items })
     const savedOrder = await orderRepo.save(newOrder)
 
@@ -61,6 +61,66 @@ orderRoutes.post('/orders', async (req, res) => {
   } catch (error) {
     console.error(error)
     return res.status(500).json({ message: 'Error creating order' })
+  }
+})
+
+orderRoutes.put('/orders/:id', async (req, res) => {
+  try {
+    const { id } = req.params
+
+    const { error, value } = orderUpdateValidator.validate(req.body)
+    if (error) {
+      return res.status(400).json({ message: error.details[0].message })
+    }
+
+    const orderRepo = AppDataSource.getRepository(Order)
+    const itemRepo = AppDataSource.getRepository(Item)
+
+    // find the order by id
+    const order = await orderRepo.findOne({ where: { id }, relations: ['items'] })
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' })
+    }
+
+    Object.assign(order, value) // updated fields
+
+    // If `items` are provided in the request, update them separately because of many to many relationship
+    if (value.items) {
+      const newItems = await itemRepo.find({
+        where: value.items.map((itemId: string) => ({ id: itemId })), // define type as `string`
+      })
+
+      if (newItems.length !== value.items.length) {
+        return res.status(400).json({ message: 'Some items were not found' })
+      }
+
+      order.items = newItems
+    }
+
+    await orderRepo.save(order)
+
+    return res.status(200).json(order)
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ message: 'Error updating order' })
+  }
+})
+
+orderRoutes.delete('/orders/:id', async (req, res) => {
+  try {
+    const { id } = req.params
+    const orderRepo = AppDataSource.getRepository(Order)
+    const order = await orderRepo.findOneBy({ id })
+
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' })
+    }
+
+    await orderRepo.remove(order)
+    return res.status(204).json({ message: 'Order deleted successfully' })
+  } catch (error) {
+    console.error('Error deleting order:', error)
+    return res.status(500).json({ message: 'Error deleting order', error })
   }
 })
 

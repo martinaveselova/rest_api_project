@@ -5,7 +5,6 @@ import { itemValidator } from '../validators/itemValidator'
 
 const itemRoutes = Router()
 
-// Get list of all items
 itemRoutes.get('/items', async (req, res) => {
   try {
     const itemRepo = AppDataSource.getRepository(Item)
@@ -16,7 +15,6 @@ itemRoutes.get('/items', async (req, res) => {
   }
 })
 
-// Get an ID of item from DB
 itemRoutes.get('/items/:id', async (req, res) => {
   try {
     const { id } = req.params
@@ -35,7 +33,6 @@ itemRoutes.get('/items/:id', async (req, res) => {
   }
 })
 
-// POST - create a new item into db
 itemRoutes.post('/items', async (req, res) => {
   try {
     const { error, value } = itemValidator.validate(req.body)
@@ -54,12 +51,10 @@ itemRoutes.post('/items', async (req, res) => {
   }
 })
 
-// PUT - update item in db
 itemRoutes.put('/items/:id', async (req, res) => {
   try {
     const { id } = req.params
 
-    // validate the request body using Joi
     const { error, value } = itemValidator.validate(req.body)
     if (error) {
       return res.status(400).json({ message: error.details[0].message })
@@ -81,9 +76,7 @@ itemRoutes.put('/items/:id', async (req, res) => {
       return res.status(409).json({ message: 'EAN or SKU already exists in the database.' })
     }
 
-    item.name = value.name
-    item.ean = value.ean
-    item.sku = value.sku
+    Object.assign(item, value)
 
     await itemRepo.save(item)
 
@@ -94,7 +87,6 @@ itemRoutes.put('/items/:id', async (req, res) => {
   }
 })
 
-// DELETE - delete item from db
 itemRoutes.delete('/items/:id', async (req, res) => {
   try {
     const { id } = req.params
@@ -106,7 +98,7 @@ itemRoutes.delete('/items/:id', async (req, res) => {
     }
     await itemRepo.remove(item)
 
-    return res.status(200).json({ message: 'Item deleted successfully' })
+    return res.status(204).json({ message: 'Item deleted successfully' })
   } catch (error) {
     console.error('Error deleting item:', error)
     return res.status(500).json({ message: 'Error deleting item', error })
