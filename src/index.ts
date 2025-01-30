@@ -1,7 +1,7 @@
 import express from 'express'
 import 'reflect-metadata'
 import { AppDataSource } from './data-source'
-import itemRoutes from './routes/itemRoutes'
+import productRoutes from './routes/productRoutes'
 import orderRoutes from './routes/orderRoutes'
 
 const app = express()
@@ -12,8 +12,7 @@ const startServer = async () => {
     await AppDataSource.initialize()
     console.log('Data source has been initialized!')
 
-    // mount the router at items
-    app.use('/api', itemRoutes, orderRoutes)
+    app.use('/api', productRoutes, orderRoutes)
 
     // start the server
     const port = process.env.PORT || 5000

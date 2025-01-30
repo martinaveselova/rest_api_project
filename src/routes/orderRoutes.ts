@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { AppDataSource } from '../data-source'
 import { Order } from '../entities/orders'
 import { orderCreateValidator, orderUpdateValidator } from '../validators/orderValidator'
-import { Item } from '../entities/items'
+import { Product } from '../entities/products'
 import { In } from 'typeorm'
 
 const orderRoutes = Router()
@@ -44,7 +44,7 @@ orderRoutes.post('/orders', async (req, res) => {
     }
 
     const orderRepo = AppDataSource.getRepository(Order)
-    const itemRepo = AppDataSource.getRepository(Item)
+    const itemRepo = AppDataSource.getRepository(Product)
 
     // fetch all items by their IDs using the In operator
     const items = await itemRepo.find({ where: { id: In(value.items) } })
@@ -74,7 +74,7 @@ orderRoutes.put('/orders/:id', async (req, res) => {
     }
 
     const orderRepo = AppDataSource.getRepository(Order)
-    const itemRepo = AppDataSource.getRepository(Item)
+    const itemRepo = AppDataSource.getRepository(Product)
 
     // find the order by id
     const order = await orderRepo.findOne({ where: { id }, relations: ['items'] })
@@ -93,8 +93,6 @@ orderRoutes.put('/orders/:id', async (req, res) => {
       if (newItems.length !== value.items.length) {
         return res.status(400).json({ message: 'Some items were not found' })
       }
-
-      order.items = newItems
     }
 
     await orderRepo.save(order)

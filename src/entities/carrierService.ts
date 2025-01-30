@@ -4,11 +4,11 @@ import { Carrier } from './carriers'
 @Entity()
 export class CarrierService {
   @PrimaryGeneratedColumn('uuid')
-  id!: string
+  id: string
 
   @Column()
-  name!: string
+  name: string
 
   @OneToMany(() => Carrier, (carrier) => carrier.carrierService)
-  carrier!: Carrier[]
+  carrier: Carrier[]
 }

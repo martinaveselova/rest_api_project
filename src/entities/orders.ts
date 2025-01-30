@@ -1,40 +1,40 @@
-import { Unique, ManyToMany, JoinTable, Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
-import { Item } from './items'
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
 
 @Entity()
-@Unique(['orderNumber'])
 export class Order {
   @PrimaryGeneratedColumn('uuid')
-  id!: string
+  id: string
 
-  @Column()
-  orderNumber!: string
+  @Column({ type: 'varchar', length: 20, unique: true })
+  orderNumber: string
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  orderCreated!: Date
+  orderCreated: Date
 
-  @Column()
-  carrier!: string
+  @Column({ type: 'varchar', length: 40, nullable: false })
+  dopravce: string
 
-  @Column()
-  carrierService!: string
+  @Column({ type: 'varchar', length: 40, nullable: false })
+  carrierService: string
 
-  @Column()
-  firstName!: string
+  @Column({ type: 'varchar', length: 40, nullable: false })
+  firstName: string
 
-  @Column()
-  lastName!: string
+  @Column({ type: 'varchar', length: 40, nullable: false })
+  lastName: string
 
-  @Column()
-  deliveryAddress!: string
+  @Column({ type: 'varchar', length: 40, nullable: false })
+  deliveryStreet: string
 
-  @Column()
-  deliveryPhone!: string
+  @Column({ type: 'varchar', length: 10, nullable: false })
+  deliveryZipCode: string
 
-  @Column()
-  deliveryEmail!: string
+  @Column({ type: 'varchar', length: 40, nullable: false })
+  deliveryCity: string
 
-  @ManyToMany(() => Item, (item) => item.orders)
-  @JoinTable()
-  items!: Item[]
+  @Column({ type: 'varchar', length: 20, nullable: false })
+  deliveryPhone: string
+
+  @Column({ type: 'varchar', length: 40, nullable: false })
+  deliveryEmail: string
 }
