@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm'
+import { OrderItem } from './orderItem'
 
 @Entity()
 export class Order {
@@ -12,7 +13,7 @@ export class Order {
   orderCreated: Date
 
   @Column({ type: 'varchar', length: 40, nullable: false })
-  dopravce: string
+  carrier: string
 
   @Column({ type: 'varchar', length: 40, nullable: false })
   carrierService: string
@@ -37,4 +38,7 @@ export class Order {
 
   @Column({ type: 'varchar', length: 40, nullable: false })
   deliveryEmail: string
+
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.order, { cascade: true })
+  items: OrderItem[]
 }

@@ -1,11 +1,11 @@
 import { Router } from 'express'
 import { AppDataSource } from '../data-source'
 import { Product } from '../entities/products'
-import { itemValidator } from '../validators/itemValidator'
+import { productValidator } from '../validators/productValidator'
 
-const orderRoutes = Router()
+const productRoutes = Router()
 
-orderRoutes.get('/products', async (req, res) => {
+productRoutes.get('/products', async (req, res) => {
   try {
     const productRepo = AppDataSource.getRepository(Product)
     const products = await productRepo.find()
@@ -15,7 +15,7 @@ orderRoutes.get('/products', async (req, res) => {
   }
 })
 
-orderRoutes.get('/products/:id', async (req, res) => {
+productRoutes.get('/products/:id', async (req, res) => {
   try {
     const { id } = req.params
     const productRepo = AppDataSource.getRepository(Product)
@@ -33,11 +33,14 @@ orderRoutes.get('/products/:id', async (req, res) => {
   }
 })
 
-orderRoutes.post('/products', async (req, res) => {
+productRoutes.post('/products', async (req, res) => {
   try {
-    const { error, value } = itemValidator.validate(req.body)
+    const { error, value } = productValidator.validate(req.body, { abortEarly: false })
     if (error) {
-      return res.status(400).json({ message: error.details[0].message })
+      return res.status(400).json({
+        message: 'Validation failed',
+        errors: error.details.map((err) => err.message),
+      })
     }
 
     const productRepo = AppDataSource.getRepository(Product)
@@ -51,13 +54,16 @@ orderRoutes.post('/products', async (req, res) => {
   }
 })
 
-orderRoutes.put('/products/:id', async (req, res) => {
+productRoutes.put('/products/:id', async (req, res) => {
   try {
     const { id } = req.params
 
-    const { error, value } = itemValidator.validate(req.body)
+    const { error, value } = productValidator.validate(req.body, { abortEarly: false })
     if (error) {
-      return res.status(400).json({ message: error.details[0].message })
+      return res.status(400).json({
+        message: 'Validation failed',
+        errors: error.details.map((err) => err.message),
+      })
     }
 
     const productRepo = AppDataSource.getRepository(Product)
@@ -87,7 +93,7 @@ orderRoutes.put('/products/:id', async (req, res) => {
   }
 })
 
-orderRoutes.delete('/products/:id', async (req, res) => {
+productRoutes.delete('/products/:id', async (req, res) => {
   try {
     const { id } = req.params
     const productRepo = AppDataSource.getRepository(Product)
@@ -105,4 +111,4 @@ orderRoutes.delete('/products/:id', async (req, res) => {
   }
 })
 
-export default orderRoutes
+export default productRoutes

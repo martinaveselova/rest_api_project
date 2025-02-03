@@ -5,6 +5,7 @@ import { Order } from './entities/orders'
 import { Carrier } from './entities/carriers'
 import { CarrierService } from './entities/carrierService'
 import { Product } from './entities/products'
+import { OrderItem } from './entities/orderItem'
 
 dotenv.config()
 
@@ -15,10 +16,10 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_NAME,
   password: process.env.DB_PASS,
   database: 'postgres',
-  entities: [Product, Order, Carrier, CarrierService],
+  entities: [Product, Order, OrderItem, Carrier, CarrierService],
   migrations: [`${__dirname}/**/migrations/*.{ts,js}`],
   synchronize: true,
-  logging: true,
+  logging: false,
 })
 
 console.log('Database connected!')
