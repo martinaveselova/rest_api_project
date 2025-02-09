@@ -12,7 +12,9 @@ const startServer = async () => {
     await AppDataSource.initialize()
     console.log('Data source has been initialized!')
 
-    app.use('/api', productRoutes, orderRoutes)
+    app.use('/api', productRoutes)
+    app.use('/api', orderRoutes)
+    console.log('Routes registered successfully.')
 
     // start the server
     const port = process.env.PORT || 5000

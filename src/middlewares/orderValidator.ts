@@ -1,3 +1,4 @@
+import { Request, Response, NextFunction } from 'express'
 import Joi from 'joi'
 
 export const orderCreateValidator = Joi.object({
@@ -15,13 +16,24 @@ export const orderCreateValidator = Joi.object({
   items: Joi.array()
     .items(
       Joi.object({
-        productId: Joi.string().uuid().required(), // ✅ Ensure productId is a valid UUID
-        quantity: Joi.number().integer().min(1).required(), // ✅ Ensure quantity is at least 1
+        productId: Joi.string().uuid().required(),
+        quantity: Joi.number().integer().min(1).required(),
       }),
     )
     .min(1)
     .required(),
 })
+
+export const validateOrder = (req: Request, res: Response, next: NextFunction) => {
+  const { error } = orderCreateValidator.validate(req.body, { abortEarly: false })
+  if (error) {
+    return res.status(400).json({
+      message: 'Validation failed',
+      errors: error.details.map((err) => err.message),
+    })
+  }
+  next()
+}
 
 export const orderUpdateValidator = Joi.object({
   orderNumber: Joi.forbidden(),

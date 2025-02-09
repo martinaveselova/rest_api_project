@@ -1,4 +1,4 @@
-// database queries
+// Handles database logic and interactions with the repository.
 
 import { AppDataSource } from '../data-source'
 import { Order } from '../entities/orders'
@@ -23,5 +23,12 @@ export class OrderService {
 
   async getOrderById(id: string) {
     return await this.orderRepo.findOne({ where: { id }, relations: ['items', 'items.product'] })
+  }
+
+  async deleteOrder(id: string) {
+    const order = await this.getOrderById(id)
+    if (!order) return null
+    await this.orderRepo.delete(id)
+    return order
   }
 }

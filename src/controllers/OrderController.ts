@@ -1,37 +1,43 @@
-// error handling, request, response logic
-
+// Handles request-response logic and validates data.
 import { Request, Response } from 'express'
 import { OrderService } from '../services/OrderService'
 
-const orderService = new OrderService()
-
 export class OrderController {
+  constructor(private readonly orderService: OrderService) {}
+
   // Get all orders
-  static async getAllOrders(req: Request, res: Response) {
+  async getAllOrders(req: Request, res: Response) {
     try {
-      const orders = await orderService.getAllOrders()
+      const orders = await this.orderService.getAllOrders()
       return res.json(orders)
     } catch (error) {
-      return res.status(500).json({ message: 'Error fetching orders', error })
+      return res.status(500).json({ message: 'Error fetching orders.', error })
     }
   }
 
   // Get specific order
-  static async getOrderById(req: Request, res: Response) {
+  async getOrderById(req: Request, res: Response) {
     try {
       const { id } = req.params
-      const order = await orderService.getOrderById(id)
+      const order = await this.orderService.getOrderById(id)
 
-      if (!order) return res.status(404).json({ message: 'Order not found' })
+      if (!order) return res.status(404).json({ message: 'Order not found.' })
       return res.json(order)
     } catch (error) {
-      return res.status(500).json({ message: 'Error fetching order', error })
+      return res.status(500).json({ message: 'Error fetching order.', error })
     }
   }
 
-  // Create an order
-
-  // Update existing order
-
   // Delete order
+  async deleteOrder(req: Request, res: Response) {
+    try {
+      const { id } = req.params
+      const deletedOrder = await this.orderService.deleteOrder(id)
+
+      if (!deletedOrder) return res.status(404).json({ message: 'Order not found or cannot be deleted.' })
+      return res.json({ message: 'Order deleted successfully.', deletedOrder })
+    } catch (error) {
+      return res.status(500).json({ message: 'Error deleting order.', error })
+    }
+  }
 }

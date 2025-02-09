@@ -2,8 +2,6 @@ import { DataSource } from 'typeorm'
 import 'reflect-metadata'
 import dotenv from 'dotenv'
 import { Order } from './entities/orders'
-import { Carrier } from './entities/carriers'
-import { CarrierService } from './entities/carrierService'
 import { Product } from './entities/products'
 import { OrderItem } from './entities/orderItem'
 
@@ -16,7 +14,7 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_NAME,
   password: process.env.DB_PASS,
   database: 'postgres',
-  entities: [Product, Order, OrderItem, Carrier, CarrierService],
+  entities: [Product, Order, OrderItem],
   migrations: [`${__dirname}/**/migrations/*.{ts,js}`],
   synchronize: true,
   logging: false,
