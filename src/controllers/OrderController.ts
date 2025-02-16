@@ -1,4 +1,5 @@
 // Handles request-response logic and validates data.
+
 import { Request, Response } from 'express'
 import { OrderService } from '../services/OrderService'
 
@@ -25,6 +26,28 @@ export class OrderController {
       return res.json(order)
     } catch (error) {
       return res.status(500).json({ message: 'Error fetching order.', error })
+    }
+  }
+
+  // Create order
+  async createOrder(req: Request, res: Response) {
+    try {
+      const order = await this.orderService.createOrder(req.body)
+      return res.status(201).json(order)
+    } catch (error) {
+      return res.status(500).json({ message: 'Error creating order.', error })
+    }
+  }
+
+  // Update order
+  async updateOrder(req: Request, res: Response) {
+    try {
+      const { id } = req.params
+      const updatedOrder = await this.orderService.updateOrder(id, req.body)
+      if (!updatedOrder) return res.status(404).json({ message: 'Order not found' })
+      return res.json(updatedOrder)
+    } catch (error) {
+      return res.status(500).json({ message: 'Error updating order.', error })
     }
   }
 

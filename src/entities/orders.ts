@@ -39,6 +39,6 @@ export class Order {
   @Column({ type: 'varchar', length: 40, nullable: false })
   deliveryEmail: string
 
-  @OneToMany(() => OrderItem, (orderItem) => orderItem.order, { cascade: true, eager: true })
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.order, { eager: true })
   items: OrderItem[]
 }

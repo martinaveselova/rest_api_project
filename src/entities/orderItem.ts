@@ -7,10 +7,10 @@ export class OrderItem {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @ManyToOne(() => Order, (order) => order.items, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Order, (order) => order.items)
   order: Order
 
-  @ManyToOne(() => Product, (product) => product.orderItems, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Product, (product) => product.orderItems, { nullable: false, onDelete: 'CASCADE' })
   product: Product
 
   @Column({ type: 'int', nullable: false })

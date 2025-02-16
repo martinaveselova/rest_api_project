@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne } from 'typeorm'
 import { OrderItem } from './orderItem'
+import { ProductStock } from './productStock'
 
 @Entity()
 export class Product {
@@ -17,4 +18,7 @@ export class Product {
 
   @OneToMany(() => OrderItem, (orderItem) => orderItem.product)
   orderItems: OrderItem[]
+
+  @OneToOne(() => ProductStock, (stock) => stock.product, { cascade: true, eager: true })
+  stock: ProductStock
 }

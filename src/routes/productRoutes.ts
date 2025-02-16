@@ -3,7 +3,7 @@
 import { Router } from 'express'
 import { ProductController } from '../controllers/productController'
 import { ProductService } from '../services/ProductService'
-import { validateProduct } from '../middlewares/productValidator'
+import { validateProduct } from '../validators/productValidator'
 
 const productRoutes = Router()
 

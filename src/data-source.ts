@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import { Order } from './entities/orders'
 import { Product } from './entities/products'
 import { OrderItem } from './entities/orderItem'
+import { ProductStock } from './entities/productStock'
 
 dotenv.config()
 
@@ -14,7 +15,7 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_NAME,
   password: process.env.DB_PASS,
   database: 'postgres',
-  entities: [Product, Order, OrderItem],
+  entities: [Product, Order, OrderItem, ProductStock],
   migrations: [`${__dirname}/**/migrations/*.{ts,js}`],
   synchronize: true,
   logging: false,

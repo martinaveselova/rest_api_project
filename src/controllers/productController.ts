@@ -1,4 +1,5 @@
-// Handles database logic and interactions with the repository.
+// Handles request-response logic and validates data.
+
 import { Request, Response } from 'express'
 import { ProductService } from '../services/ProductService'
 

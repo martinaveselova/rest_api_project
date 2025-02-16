@@ -3,6 +3,7 @@ import 'reflect-metadata'
 import { AppDataSource } from './data-source'
 import productRoutes from './routes/productRoutes'
 import orderRoutes from './routes/orderRoutes'
+import productStockRoutes from './routes/productStockRoutes'
 
 const app = express()
 app.use(express.json())
@@ -14,6 +15,7 @@ const startServer = async () => {
 
     app.use('/api', productRoutes)
     app.use('/api', orderRoutes)
+    app.use('/api', productStockRoutes)
     console.log('Routes registered successfully.')
 
     // start the server
