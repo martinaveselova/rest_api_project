@@ -6,8 +6,8 @@ export class Order {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @Column({ type: 'varchar', length: 20, unique: true })
-  orderNumber: string
+  @Column({ type: 'varchar', length: 20, unique: true, nullable: true })
+  orderNumber: string | null
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   orderCreated: Date

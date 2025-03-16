@@ -1,13 +1,12 @@
-// Handles request-response logic and validates data.
-
 import { Request, Response } from 'express'
 import { ProductStockService } from '../services/productStockService'
 
+// Handles request-response logic and validates data.
 export class ProductStockController {
   constructor(private readonly productStockService: ProductStockService) {}
 
   // Get all product stocks
-  async getAllProductStocks(req: Request, res: Response) {
+  getAllProductStocks = async (req: Request, res: Response) => {
     try {
       const products = await this.productStockService.getAllProductStocks()
       return res.json(products)
@@ -17,7 +16,7 @@ export class ProductStockController {
   }
 
   // Get specific product stock
-  async getProductStockById(req: Request, res: Response) {
+  getProductStockById = async (req: Request, res: Response) => {
     try {
       const { id } = req.params
       const product = await this.productStockService.getProductStockById(id)
@@ -30,7 +29,7 @@ export class ProductStockController {
   }
 
   // Create product stock
-  async createProductStock(req: Request, res: Response): Promise<Response> {
+  createProductStock = async (req: Request, res: Response) => {
     try {
       const { productId, quantity } = req.body
 
@@ -46,7 +45,7 @@ export class ProductStockController {
   }
 
   // Update specific product stock
-  async updateProductStock(req: Request, res: Response) {
+  updateProductStock = async (req: Request, res: Response) => {
     try {
       const { id } = req.params
       const updatedProduct = await this.productStockService.updateProductStock(id, req.body)
@@ -59,7 +58,7 @@ export class ProductStockController {
   }
 
   // Delete product stock
-  async deleteProductStock(req: Request, res: Response) {
+  deleteProductStock = async (req: Request, res: Response) => {
     try {
       const { id } = req.params
       const deletedProduct = await this.productStockService.deleteProductStock(id)

@@ -1,13 +1,12 @@
-// Handles request-response logic and validates data.
-
 import { Request, Response } from 'express'
-import { ProductService } from '../services/ProductService'
+import { ProductService } from '../services/productService'
 
+// Handles request-response logic and validates data.
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   // Get all products
-  async getAllProducts(req: Request, res: Response) {
+  getAllProducts = async (req: Request, res: Response) => {
     try {
       const products = await this.productService.getAllProducts()
       return res.json(products)
@@ -17,7 +16,7 @@ export class ProductController {
   }
 
   // Get specific product
-  async getProductById(req: Request, res: Response) {
+  getProductById = async (req: Request, res: Response) => {
     try {
       const { id } = req.params
       const product = await this.productService.getProductById(id)
@@ -30,7 +29,7 @@ export class ProductController {
   }
 
   // Create product
-  async createProduct(req: Request, res: Response) {
+  createProduct = async (req: Request, res: Response) => {
     try {
       const product = await this.productService.createProduct(req.body)
       return res.status(201).json({ message: 'Product created.', product })
@@ -40,7 +39,7 @@ export class ProductController {
   }
 
   // Update specific product
-  async updateProduct(req: Request, res: Response) {
+  updateProduct = async (req: Request, res: Response) => {
     try {
       const { id } = req.params
       const updatedProduct = await this.productService.updateProduct(id, req.body)
@@ -53,7 +52,7 @@ export class ProductController {
   }
 
   // Delete product
-  async deleteProduct(req: Request, res: Response) {
+  deleteProduct = async (req: Request, res: Response) => {
     try {
       const { id } = req.params
       const deletedProduct = await this.productService.deleteProduct(id)

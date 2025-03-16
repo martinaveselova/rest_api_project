@@ -12,13 +12,15 @@ export const AppDataSource = new DataSource({
   type: 'postgres',
   host: process.env.DB_HOST,
   port: parseInt(process.env.DB_PORT || '5432', 10),
-  username: process.env.DB_NAME,
+  username: process.env.DB_USER,
   password: process.env.DB_PASS,
-  database: 'postgres',
+  database: process.env.DB_NAME,
   entities: [Product, Order, OrderItem, ProductStock],
   migrations: [`${__dirname}/**/migrations/*.{ts,js}`],
   synchronize: true,
   logging: false,
 })
+
+console.log('Connecting to DB:', process.env.DB_USER, process.env.DB_NAME)
 
 console.log('Database connected!')

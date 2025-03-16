@@ -1,19 +1,17 @@
-// Defines the routes and hooks them up with the controller methods.
-
 import { Router } from 'express'
-import { OrderController } from '../controllers/OrderController'
-import { validateOrder } from '../validators/orderValidator'
-import { OrderService } from '../services/OrderService'
+import { OrderController } from '../controllers/orderController'
+import { validator } from '../validators/middleware-validator'
+import { orderCreateValidator, orderUpdateValidator } from '../validators/orderValidator'
+import { OrderService } from '../services/orderService'
 
 const orderRoutes = Router()
-
 const orderService = new OrderService()
 const orderController = new OrderController(orderService)
 
-orderRoutes.get('/orders', orderController.getAllOrders.bind(orderController))
-orderRoutes.get('/orders/:id', orderController.getOrderById.bind(orderController))
-orderRoutes.post('/orders', validateOrder, orderController.createOrder.bind(orderController))
-orderRoutes.put('/orders/:id', orderController.updateOrder.bind(orderController))
-orderRoutes.delete('/orders/:id', orderController.deleteOrder.bind(orderController))
+orderRoutes.get('/orders', orderController.getAllOrders)
+orderRoutes.get('/orders/:id', orderController.getOrderById)
+orderRoutes.post('/orders', validator(orderCreateValidator), orderController.createOrder)
+orderRoutes.put('/orders/:id', validator(orderUpdateValidator), orderController.updateOrder)
+orderRoutes.delete('/orders/:id', orderController.deleteOrder)
 
 export default orderRoutes

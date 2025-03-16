@@ -1,4 +1,3 @@
-import { Request, Response, NextFunction } from 'express'
 import Joi from 'joi'
 
 export const orderCreateValidator = Joi.object({
@@ -23,17 +22,6 @@ export const orderCreateValidator = Joi.object({
     .min(1)
     .required(),
 })
-
-export const validateOrder = (req: Request, res: Response, next: NextFunction) => {
-  const { error } = orderCreateValidator.validate(req.body, { abortEarly: false })
-  if (error) {
-    return res.status(400).json({
-      message: 'Validation failed',
-      errors: error.details.map((err) => err.message),
-    })
-  }
-  next()
-}
 
 export const orderUpdateValidator = Joi.object({
   orderNumber: Joi.forbidden(),

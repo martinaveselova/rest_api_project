@@ -1,10 +1,9 @@
-// Handles database logic and interactions with the repository.
-
 import { AppDataSource } from '../data-source'
 import { ProductStock } from '../entities/productStock'
 import { Product } from '../entities/products'
 import { Repository } from 'typeorm'
 
+// Handles database logic and interactions with the repository.
 export class ProductStockService {
   productStockRepo: Repository<ProductStock>
   productRepo: Repository<Product>
@@ -56,5 +55,19 @@ export class ProductStockService {
     if (!product) return null
     await this.productStockRepo.delete(id)
     return product
+  }
+
+  async deductStock(productId: string, quantity: number): Promise<void> {
+    const productStock = await this.productStockRepo.findOne({ where: { product: { id: productId } } })
+    if (!productStock) {
+      throw new Error('Product stock not found')
+    }
+
+    if (productStock.quantity < quantity) {
+      throw new Error('Insufficient stock')
+    }
+
+    productStock.quantity -= quantity
+    await this.productStockRepo.save(productStock)
   }
 }
